@@ -17,7 +17,16 @@ class Robot(object):
     
     # convert speed from 0-100 to robot speeds
     def convert_speed(self, speed):
-        return (speed * 255) / 100
+        # choose the running mode 
+        mode = Raspi_MotorHAT.RELEASE
+        if speed > 0:
+            mode = Raspi_MotorHAT.FORWARD
+        elif speed < 0:
+            mode = Raspi_MotorHAT.BACKWARD
+        
+        #Scale the speed
+        output_speed = (abs(speed)*255)/100
+        return mode, output_speed
 
     # release motors
     def stop_motors(self):
@@ -28,19 +37,24 @@ class Robot(object):
     
     # sets speeds of left wheels
     def set_left(self, speed):
-        self.left_motor_rear.setSpeed(self.convert_speed(speed))
-        self.left_motor_front.setSpeed(self.convert_speed(speed))
+        mode, output_speed = self.convert_speed(speed)
+        self.left_motor_rear.setSpeed(output_speed)
+        self.left_motor_front.setSpeed(output_speed)
+        self.left_motor_rear.run(mode)
+        self.left_motor_front.run(mode)
+        
     
     # sets speeds of right wheels
     def set_right(self, speed):
-        self.right_motor_rear.setSpeed(self.convert_speed(speed))
-        self.right_motor_front.setSpeed(self.convert_speed(speed))
+        mode, output_speed = self.convert_speed(speed)
+        self.right_motor_rear.setSpeed(output_speed)
+        self.right_motor_front.setSpeed(output_speed)
+        self.right_motor_rear.run(mode)
+        self.right_motor_front.run(mode)
 
-    def forward(self, speed):
+    def move(self, speed):
         self.set_left(speed)
         self.set_right(speed)
-        self.left_motor_rear.run(Raspi_MotorHAT.FORWARD)
-        self.right_motor_rear.run(Raspi_MotorHAT.FORWARD)
-        self.left_motor_front.run(Raspi_MotorHAT.FORWARD)
-        self.right_motor_front.run(Raspi_MotorHAT.FORWARD)
+        
+        
 
