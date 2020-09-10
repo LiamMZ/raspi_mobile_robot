@@ -15,14 +15,30 @@ class Robot(object):
         # make sure motors stop when code exits
         atexit.register(self.stop_motors)
     
+    # convert speed from 0-100 to robot speeds
+    def convert_speed(self, speed):
+        return (speed * 255) / 100
+
     # release motors
     def stop_motors(self):
         self.left_motor_rear.run(Raspi_MotorHAT.RELEASE)
         self.right_motor_rear.run(Raspi_MotorHAT.RELEASE)
         self.left_motor_front.run(Raspi_MotorHAT.RELEASE)
         self.right_motor_front.run(Raspi_MotorHAT.RELEASE)
+    
+    # sets speeds of left wheels
+    def set_left(self, speed):
+        self.left_motor_rear.setSpeed(self.convert_speed(speed))
+        self.left_motor_front.setSpeed(self.convert_speed(speed))
+    
+    # sets speeds of right wheels
+    def set_right(self, speed):
+        self.right_motor_rear.setSpeed(self.convert_speed(speed))
+        self.right_motor_front.setSpeed(self.convert_speed(speed))
 
-    def forward(self):
+    def forward(self, speed):
+        self.set_left(speed)
+        self.set_right(speed)
         self.left_motor_rear.run(Raspi_MotorHAT.FORWARD)
         self.right_motor_rear.run(Raspi_MotorHAT.FORWARD)
         self.left_motor_front.run(Raspi_MotorHAT.FORWARD)
