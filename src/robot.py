@@ -1,4 +1,5 @@
 from Raspi_MotorHAT import Raspi_MotorHAT
+from servos import Servos
 import atexit
 
 class Robot(object):
@@ -14,6 +15,9 @@ class Robot(object):
 
         # make sure motors stop when code exits
         atexit.register(self.stop_motors)
+
+        # Set up servo motors for pan and tilt
+        self.servos = Servos(addr=motorhat_addr)
     
     # convert speed from 0-100 to robot speeds
     def convert_speed(self, speed):
@@ -55,6 +59,16 @@ class Robot(object):
     def move(self, speed):
         self.set_left(speed)
         self.set_right(speed)
+    
+    def set_pan(self, angle):
+        self.servos.set_servo_angle(1, angle)
+
+    def set_tilt(self, angle):
+        self.servos.set_servo_angle(0,angle)
         
-        
+    def stop_all(self):
+        self.stop_motors()
+
+        # Reset the servos
+        self.servos.stop_all()
 
