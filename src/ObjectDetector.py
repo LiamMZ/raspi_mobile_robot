@@ -28,11 +28,13 @@ class ObjectDetector:
             if confidence > 0.5:
                 class_id = int(detection[1])
                 class_name = self.id_class_name(class_id)
-                center_x = ((detection[3] * image_width) + (detection[5] * image_width))/2
-                center_y = ((detection[4] * image_height) + (detection[6] * image_height))/2
+                x = detection[3] * image_width
+                y = detection[4] * image_height
+                w = detection[5] * image_width
+                h = detection[6] * image_height
                 if detections.get(class_name, None) is None:
-                    detections[class_name] = [(center_x, center_y)]
+                    detections[class_name] = [(x,y,w,h)]
                 else:
-                    detections[class_name].append((center_x, center_y))
+                    detections[class_name].append((x,y,w,h))
         
         return detections
