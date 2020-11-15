@@ -16,7 +16,7 @@ class CirclePanTiltBehavior(object):
             frame = self.current_time % self.frames_per_circle
             frame_in_radians = frame * self.radians_per_frame
             self.robot.set_pan(self.radius * math.cos(frame_in_radians))
-            self.robot.set_tilt(self.radius * math.sin(frame_in_radians))
+            self.robot.set_tilt((self.radius * math.sin(frame_in_radians))+20)
             sleep(0.05)
             self.current_time += 1
 
