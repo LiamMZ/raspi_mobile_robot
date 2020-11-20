@@ -11,13 +11,6 @@ class Servos:
         self.kit = ServoKit(address=addr, channels=8)
 
         self._pwm = self.kit.continuous_servo
-
-    # def stop_all(self):
-    #     # 0 in start is nothing, 4096 sets the OFF bit.
-    #     self._pwm.setPWM(0, 0, 4096)
-    #     self._pwm.setPWM(1, 0, 4096)
-    #     self._pwm.setPWM(14, 0, 4096)
-    #     self._pwm.setPWM(15, 0, 4096)
     
     def _convert_degrees_to_pwm(self, position):
         return float(position/90)
@@ -27,7 +20,7 @@ class Servos:
     # @param[in] channel: channel of servo you wish to move
     def set_servo_angle(self, channel, angle):
         # validate angle
-        if angle > 90 or angle < -90:
+        if angle > 90 or angle < 0:
             raise ValueError("Angle outside of range")
         # Then set the position
         off_step = self._convert_degrees_to_pwm(angle)

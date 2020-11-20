@@ -22,7 +22,7 @@ class Robot(object):
     # convert speed from 0-100 to robot speeds
     def convert_speed(self, speed):
         #Scale the speed
-        output_speed = abs(speed)/100
+        output_speed = speed/100
         return output_speed
 
     # release motors

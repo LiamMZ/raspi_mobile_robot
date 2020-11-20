@@ -1,5 +1,4 @@
 import robot
-from Raspi_MotorHAT import Raspi_MotorHAT
 import sys
 from time import sleep
 
@@ -74,10 +73,10 @@ if __name__=='__main__':
     bot = robot.Robot()
     tilt = 90
     pan = 0
-    bot.set_pan(pan)
+    # bot.set_pan(pan)
     bot.set_tilt(tilt)
     while True:
-        inp = raw_input()
+        inp = input()
         if inp == 'w':
             straight(bot, 0)
         elif inp == 's':
